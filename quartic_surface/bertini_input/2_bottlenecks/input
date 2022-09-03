@@ -1,0 +1,41 @@
+CONFIG
+ TrackType: 0;
+ ODEPredictor: 2;
+ TrackTolBeforeEG: 1e-7;
+ TrackTolDuringEG: 1e-7;
+ FinalTol: 1e-10;
+ SliceTolBeforeEG: 1e-7;
+ SliceTolDuringEG: 1e-7;
+ SliceFinalTol: 1e-10;
+ SecurityMaxNorm: 1e8;
+ MaxNorm: 1e8;
+ CondNumThreshold: 1e30;
+END;
+INPUT
+ variable_group x1,y1,z1, x2,y2,z2, t1;
+ hom_variable_group l10,l11;
+ hom_variable_group l20,l21;
+
+ % t1 + t2 = 1
+ t2 = 1 - t1;
+
+ a = t1*x1 + t2*x2;
+ b = t1*y1 + t2*y2;
+ c = t1*z1 + t2*z2;
+
+ function D, f11,f12,f13,f21,f22,f23, g1,g2;
+
+ g1 = - 3 + 3*z1^4 + 4*y1 + 8*y1^2 - 6*y1^3 + 7*y1^4 + 8*x1 - 5*x1*y1 - 8*x1*y1^2 - 4*x1^2 + 2*x1^2*y1 - 8*x1^3 + 4*x1^4; 
+ f11 = - l10*(a - x1) - l11*(8*x1 + 5*y1 - 4*x1*y1 + 24*x1^2 - 16*x1^3 + 8*y1^2 - 8);
+ f12 = l11*(16*y1 - 5*x1 - 16*x1*y1 + 2*x1^2 - 18*y1^2 + 28*y1^3 + 4) - l10*(b - y1);
+ f13 = 12*l11*z1^3 - l10*(c - z1);
+
+ g2 = - 3 + 3*z2^4 + 4*y2 + 8*y2^2 - 6*y2^3 + 7*y2^4 + 8*x2 - 5*x2*y2 - 8*x2*y2^2 - 4*x2^2 + 2*x2^2*y2 - 8*x2^3 + 4*x2^4;
+ f21 = - l20*(a - x2) - l21*(8*x2 + 5*y2 - 4*x2*y2 + 24*x2^2 - 16*x2^3 + 8*y2^2 - 8);
+ f22 = l21*(16*y2 - 5*x2 - 16*x2*y2 + 2*x2^2 - 18*y2^2 + 28*y2^3 + 4) - l20*(b - y2);
+ f23 = 12*l21*z2^3 - l20*(c - z2);
+
+ D = 2*c*z2 - z2^2 - 2*c*z1 + z1^2 + 2*b*y2 - y2^2 - 2*b*y1 + y1^2 + 2*a*x2 - x2^2 - 2*a*x1 + x1^2;
+END;
+
+

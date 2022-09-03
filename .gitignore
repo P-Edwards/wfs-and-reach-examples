@@ -1,0 +1,7 @@
+*\.jld
+clebsch_and_torus/paper_data/*
+.*\.ipynb_checkpoints
+butterfly_lfs_sparse/paper_data/*\.csv
+quartic_surface/paper_data/*
+*.toml
+*/.ipynb_checkpoints

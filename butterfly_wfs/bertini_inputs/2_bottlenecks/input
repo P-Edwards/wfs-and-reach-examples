@@ -1,0 +1,36 @@
+CONFIG
+ TrackType: 0;
+ ODEPredictor: 2;
+ TrackTolBeforeEG: 1e-7;
+ TrackTolDuringEG: 1e-7;
+ FinalTol: 1e-10;
+ SliceTolBeforeEG: 1e-7;
+ SliceTolDuringEG: 1e-7;
+ SliceFinalTol: 1e-10;
+ SecurityMaxNorm: 1e8; 
+ MaxNorm: 1e8;
+ SharpenDigits: 14;
+END;
+INPUT
+ variable_group zx,zy, x1,y1, x2,y2;
+ variable_group t1;
+ t2 = 1 - t1; % t1 + t2 = 1
+
+ function f7,f6,f5,f4,f3,f2,f1; 
+
+ % on variety
+ f1 = x1^4 - x1^2*y1^2 - 4*x1^2 - x1 + y1^4 - 2*y1^2 - 4*y1 + 1;
+ f2 = x2^4 - x2^2*y2^2 - 4*x2^2 - x2 + y2^4 - 2*y2^2 - 4*y2 + 1;
+
+ % rank condition
+ f3 = y1 - 4*x1 + 4*zx - zy + 4*x1*y1 - 8*x1*zy + 4*y1*zx + 6*x1*y1^3 - 6*x1^3*y1 + 4*x1^3*zy - 4*y1^3*zx + 2*x1^2*y1*zx - 2*x1*y1^2*zy; 
+ f4 = y2 - 4*x2 + 4*zx - zy + 4*x2*y2 - 8*x2*zy + 4*y2*zx + 6*x2*y2^3 - 6*x2^3*y2 + 4*x2^3*zy - 4*y2^3*zx + 2*x2^2*y2*zx - 2*x2*y2^2*zy; 
+
+ % distance constraint
+ f5 = x1^2 - 2*zx*x1 - x2^2 + 2*zx*x2 + y1^2 - 2*zy*y1 - y2^2 + 2*zy*y2; 
+
+ % linear relationship
+ f6 = t1*x1 + t2*x2 - zx;
+ f7 = t1*y1 + t2*y2 - zy;
+END;
+

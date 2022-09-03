@@ -1,0 +1,57 @@
+CONFIG
+ UseRegeneration: 1;
+ TrackType: 0;
+ ODEPredictor: 2;
+ TrackTolBeforeEG: 1e-7;
+ TrackTolDuringEG: 1e-7;
+ FinalTol: 1e-10;
+ SliceTolBeforeEG: 1e-7;
+ SliceTolDuringEG: 1e-7;
+ SliceFinalTol: 1e-10;
+ SecurityMaxNorm: 1e8;
+ MaxNorm: 1e8;
+ SharpenDigits: 14;
+END;
+INPUT
+ variable_group a,b,c, x1,y1,z1, x2,y2,z2, x3,y3,z3, x4,y4,z4;
+ hom_variable_group l10,l11;
+ hom_variable_group l20,l21;
+ hom_variable_group l30,l31;
+ hom_variable_group l40,l41;
+ variable_group t1,t2,t3;
+
+ % t1 + t2 + t3 + t4 = 1
+ t4 = 1 - t1 - t2 - t3;
+
+ function A,B,C,D1,D2,D3, f11,f12,f13,f21,f22,f23,f31,f32,f33,f41,f42,f43, g1,g2,g3,g4;
+
+ g1 = - 3 + 3*z1^4 + 4*y1 + 8*y1^2 - 6*y1^3 + 7*y1^4 + 8*x1 - 5*x1*y1 - 8*x1*y1^2 - 4*x1^2 + 2*x1^2*y1 - 8*x1^3 + 4*x1^4; 
+ f11 = - l10*(a - x1) - l11*(8*x1 + 5*y1 - 4*x1*y1 + 24*x1^2 - 16*x1^3 + 8*y1^2 - 8);
+ f12 = l11*(16*y1 - 5*x1 - 16*x1*y1 + 2*x1^2 - 18*y1^2 + 28*y1^3 + 4) - l10*(b - y1);
+ f13 = 12*l11*z1^3 - l10*(c - z1);
+
+ g2 = - 3 + 3*z2^4 + 4*y2 + 8*y2^2 - 6*y2^3 + 7*y2^4 + 8*x2 - 5*x2*y2 - 8*x2*y2^2 - 4*x2^2 + 2*x2^2*y2 - 8*x2^3 + 4*x2^4;
+ f21 = - l20*(a - x2) - l21*(8*x2 + 5*y2 - 4*x2*y2 + 24*x2^2 - 16*x2^3 + 8*y2^2 - 8);
+ f22 = l21*(16*y2 - 5*x2 - 16*x2*y2 + 2*x2^2 - 18*y2^2 + 28*y2^3 + 4) - l20*(b - y2);
+ f23 = 12*l21*z2^3 - l20*(c - z2);
+
+ g3 = - 3 + 3*z3^4 + 4*y3 + 8*y3^2 - 6*y3^3 + 7*y3^4 + 8*x3 - 5*x3*y3 - 8*x3*y3^2 - 4*x3^2 + 2*x3^2*y3 - 8*x3^3 + 4*x3^4;
+ f31 = - l30*(a - x3) - l31*(8*x3 + 5*y3 - 4*x3*y3 + 24*x3^2 - 16*x3^3 + 8*y3^2 - 8);
+ f32 = l31*(16*y3 - 5*x3 - 16*x3*y3 + 2*x3^2 - 18*y3^2 + 28*y3^3 + 4) - l30*(b - y3);
+ f33 = 12*l31*z3^3 - l30*(c - z3);
+
+ g4 = - 3 + 3*z4^4 + 4*y4 + 8*y4^2 - 6*y4^3 + 7*y4^4 + 8*x4 - 5*x4*y4 - 8*x4*y4^2 - 4*x4^2 + 2*x4^2*y4 - 8*x4^3 + 4*x4^4;
+ f41 = - l40*(a - x4) - l41*(8*x4 + 5*y4 - 4*x4*y4 + 24*x4^2 - 16*x4^3 + 8*y4^2 - 8);
+ f42 = l41*(16*y4 - 5*x4 - 16*x4*y4 + 2*x4^2 - 18*y4^2 + 28*y4^3 + 4) - l40*(b - y4);
+ f43 = 12*l41*z4^3 - l40*(c - z4);
+
+ A = t1*x1 + t2*x2 + t3*x3 + t4*x4 - a;
+ B = t1*y1 + t2*y2 + t3*y3 + t4*y4 - b;
+ C = t1*z1 + t2*z2 + t3*z3 + t4*z4 - c;
+
+ D1 = 2*c*z2 - z2^2 - 2*c*z1 + z1^2 + 2*b*y2 - y2^2 - 2*b*y1 + y1^2 + 2*a*x2 - x2^2 - 2*a*x1 + x1^2;
+ D2 = 2*c*z3 - z3^2 - 2*c*z1 + z1^2 + 2*b*y3 - y3^2 - 2*b*y1 + y1^2 + 2*a*x3 - x3^2 - 2*a*x1 + x1^2;
+ D3 = 2*c*z4 - z4^2 - 2*c*z1 + z1^2 + 2*b*y4 - y4^2 - 2*b*y1 + y1^2 + 2*a*x4 - x4^2 - 2*a*x1 + x1^2;
+END;
+
+
